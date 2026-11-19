@@ -1,2 +1,4 @@
 sources:
+  istack-commons-runtime-4.2.0.tar.gz: 46bd537c6e1ab7512f4308329922be15fdeabf45
+removed_sources:
   istack-commons-runtime-4.1.2.tar.gz: 782ae1297959dbf0d075e002525ce1227fa7f2a5

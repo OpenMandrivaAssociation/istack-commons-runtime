@@ -1,5 +1,5 @@
 Name:		istack-commons-runtime
-Version:	4.1.2
+Version:	4.2.0
 Release:	1
 Summary:	istack common utility code
 Group:		Development/Java
@@ -14,7 +14,8 @@ BuildRequires:	mvn(jakarta.activation:jakarta.activation-api)
 
 %description
 istack-commons-runtime %{version} is the small utility library JAXB uses
-for data sources, localization, and logging. ByteArrayDataSource implements
+for data sources, localization, and logging. 4.2.0 drops the
+SecurityManager calls. ByteArrayDataSource implements
 jakarta.activation.DataSource.
 
 %prep
@@ -22,6 +23,8 @@ jakarta.activation.DataSource.
 find . \( -name '*.jar' -o -name '*.class' -o -name '*.so' -o -name '*.node' -o -name '*.wasm' \) -delete
 
 %build
+export JAVA_HOME=%{_jvmdir}/java-openjdk
+export PATH="$JAVA_HOME/bin:$PATH"
 find istack-commons/runtime/src/main/java -name '*.java' \
 	! -name 'module-info.java' > sources.list
 test "$(wc -l < sources.list)" -eq 20
@@ -39,7 +42,7 @@ cat > istack-commons-runtime.pom << 'EOF'
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sun.istack</groupId>
   <artifactId>istack-commons-runtime</artifactId>
-  <version>4.1.2</version>
+  <version>%{version}</version>
   <name>istack common utility code runtime</name>
   <description>istack common utility code runtime</description>
   <licenses>
@@ -64,6 +67,8 @@ sysjar install --buildroot %{buildroot} \
 	--filelist .mfiles
 
 %check
+export JAVA_HOME=%{_jvmdir}/java-openjdk
+export PATH="$JAVA_HOME/bin:$PATH"
 mkdir -p check
 cat > check/Smoke.java << 'END'
 import com.sun.istack.ByteArrayDataSource;
